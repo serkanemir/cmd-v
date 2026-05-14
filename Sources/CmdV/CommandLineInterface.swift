@@ -24,14 +24,22 @@ struct CommandLineInterface {
             let outcome = try ClipboardConverter().convertCurrentPasteboard(force: true)
             logger.print(outcome.userFacingMessage)
         case "install":
-            let installedBinary = try Installer().installCurrentExecutable()
+            let installer = Installer()
+            let installedBinary = try installer.installCurrentExecutable()
             try LaunchAgent(binaryURL: installedBinary).install()
             logger.print("cmd-v installed and started.")
             logger.print("Binary: \(installedBinary.path)")
         case "uninstall":
-            try LaunchAgent.uninstall()
-            try Installer().removeInstalledBinaryIfPresent()
-            logger.print("cmd-v stopped and uninstalled.")
+            let installer = Installer()
+            let removedAgent = try LaunchAgent.uninstall(expectedBinaryURL: installer.installURL)
+            let removedBinary = try installer.removeInstalledBinaryIfPresent()
+
+            if removedAgent || removedBinary {
+                logger.print("cmd-v source install stopped and uninstalled.")
+            } else {
+                logger.print("No source cmd-v installation found at \(installer.installURL.path).")
+                logger.print("If you installed with Homebrew, run: brew services stop cmd-v && brew uninstall cmd-v")
+            }
         case "start":
             try LaunchAgent.start()
             logger.print("cmd-v started.")

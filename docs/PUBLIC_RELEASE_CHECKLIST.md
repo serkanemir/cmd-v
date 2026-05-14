@@ -8,12 +8,15 @@ Before each release:
 4. Confirm GitHub vulnerability reporting is available for sensitive reports.
 5. Confirm no local test screenshots or generated files are tracked.
 6. Run `swift test`.
-7. Run `./scripts/install.sh`.
-8. Confirm `otool -l $(command -v cmd-v)` reports `minos 12.0`.
-9. Test `Ctrl+Cmd+Shift+4` screenshot to clipboard, then Finder `Cmd+V`.
-10. Test copied web image to Finder `Cmd+V`.
-11. Test copying an existing file in Finder remains unchanged.
-12. Tag `v0.1.0`.
-13. Create a GitHub release.
-14. Update the Homebrew formula checksum.
-15. Decide whether to sign and notarize a binary release.
+7. Run `swift build -c release`.
+8. Run `./scripts/install.sh`.
+9. Confirm the source install path is `~/.local/bin/cmd-v`.
+10. Confirm `otool -l ~/.local/bin/cmd-v` reports `minos 12.0`.
+11. Confirm Homebrew formula install and service start after the tap checksum is updated.
+12. Test `Ctrl+Cmd+Shift+4` screenshot to clipboard, then Finder `Cmd+V`.
+13. Test copied web image to Finder `Cmd+V`.
+14. Test copying an existing file in Finder remains unchanged.
+15. Tag the new release.
+16. Create a GitHub release.
+17. Update the Homebrew tap formula checksum.
+18. Decide whether to sign and notarize a binary release.

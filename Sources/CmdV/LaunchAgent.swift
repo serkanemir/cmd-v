@@ -46,11 +46,20 @@ struct LaunchAgent {
         try Self.start()
     }
 
-    static func uninstall() throws {
+    @discardableResult
+    static func uninstall(expectedBinaryURL: URL? = nil) throws -> Bool {
+        if
+            let expectedBinaryURL,
+            installedProgramPath()?.standardizedPath != expectedBinaryURL.path.standardizedPath
+        {
+            return false
+        }
+
         try? stop()
         if FileManager.default.fileExists(atPath: plistURL.path) {
             try FileManager.default.removeItem(at: plistURL)
         }
+        return true
     }
 
     static func start() throws {
@@ -112,5 +121,28 @@ struct LaunchAgent {
 
     private static func serviceTarget(for label: String) -> String {
         "\(guiTarget)/\(label)"
+    }
+
+    private static func installedProgramPath() -> String? {
+        guard
+            let data = try? Data(contentsOf: plistURL),
+            let plist = try? PropertyListSerialization.propertyList(
+                from: data,
+                options: [],
+                format: nil
+            ) as? [String: Any],
+            let arguments = plist["ProgramArguments"] as? [String],
+            let programPath = arguments.first
+        else {
+            return nil
+        }
+
+        return programPath
+    }
+}
+
+private extension String {
+    var standardizedPath: String {
+        URL(fileURLWithPath: self).standardizedFileURL.path
     }
 }

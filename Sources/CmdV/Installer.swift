@@ -2,13 +2,18 @@ import Foundation
 
 struct Installer {
     private let fileManager: FileManager
+    private let homeDirectory: URL
 
-    init(fileManager: FileManager = .default) {
+    init(
+        fileManager: FileManager = .default,
+        homeDirectory: URL? = nil
+    ) {
         self.fileManager = fileManager
+        self.homeDirectory = homeDirectory ?? fileManager.homeDirectoryForCurrentUser
     }
 
     var installURL: URL {
-        preferredInstallDirectory.appendingPathComponent("cmd-v")
+        installDirectory.appendingPathComponent("cmd-v")
     }
 
     func installCurrentExecutable() throws -> URL {
@@ -31,35 +36,18 @@ struct Installer {
         return destination
     }
 
-    func removeInstalledBinaryIfPresent() throws {
+    @discardableResult
+    func removeInstalledBinaryIfPresent() throws -> Bool {
         let destination = installURL
         if fileManager.fileExists(atPath: destination.path) {
             try fileManager.removeItem(at: destination)
+            return true
         }
+        return false
     }
 
-    private var preferredInstallDirectory: URL {
-        let pathDirectories = Set(
-            (ProcessInfo.processInfo.environment["PATH"] ?? "")
-                .split(separator: ":")
-                .map(String.init)
-        )
-
-        let candidates = [
-            URL(fileURLWithPath: "/opt/homebrew/bin", isDirectory: true),
-            URL(fileURLWithPath: "/usr/local/bin", isDirectory: true)
-        ]
-
-        if let writablePathDirectory = candidates.first(where: { directory in
-            pathDirectories.contains(directory.path)
-                && fileManager.fileExists(atPath: directory.path)
-                && fileManager.isWritableFile(atPath: directory.path)
-        }) {
-            return writablePathDirectory
-        }
-
-        return fileManager
-            .homeDirectoryForCurrentUser
+    private var installDirectory: URL {
+        homeDirectory
             .appendingPathComponent(".local/bin", isDirectory: true)
     }
 }

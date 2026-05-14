@@ -1,0 +1,48 @@
+name: Bug report
+description: Report something that is broken or surprising.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve cmd-v. Please do not include sensitive clipboard contents or private screenshots.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the behavior and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the shortest sequence that triggers the issue.
+      placeholder: |
+        1. Copy a screenshot to the clipboard
+        2. Open Finder
+        3. Press Cmd+V
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: cmd-v version
+      placeholder: "cmd-v version"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "System Settings -> General -> About"
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Paste the output of `cmd-v doctor` if it does not include private information.
+      render: text
+

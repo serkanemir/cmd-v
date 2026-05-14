@@ -4,6 +4,15 @@ cmd-v touches clipboard data, so the project keeps a deliberately small security
 
 Maintainer: [Serkan Emir](https://github.com/serkanemir)
 
+## Supported Versions
+
+cmd-v is public alpha software.
+
+| Version | Security support |
+| --- | --- |
+| 0.1.x | Yes |
+| < 0.1.0 | No |
+
 ## Local-Only Design
 
 - No network code
@@ -37,4 +46,6 @@ cmd-v rejects generated PNG payloads above 100 MB.
 
 ## Reporting Issues
 
-For sensitive security reports, use GitHub's vulnerability reporting flow for this repository when available. For non-sensitive issues, open a normal GitHub issue.
+For sensitive security reports, use GitHub's private vulnerability reporting flow for this repository when available. If that is unavailable, open a minimal public issue that says a security report is available without posting exploit details.
+
+For non-sensitive issues, open a normal GitHub issue.

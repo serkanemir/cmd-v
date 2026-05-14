@@ -5,9 +5,12 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test:
-    name: Swift Tests
+    name: Swift
     runs-on: macos-15
     steps:
       - name: Checkout
@@ -19,5 +22,11 @@ jobs:
       - name: Build
         run: swift build
 
+      - name: Strict concurrency check
+        run: swift build -Xswiftc -strict-concurrency=complete -Xswiftc -warn-concurrency
+
       - name: Test
         run: swift test
+
+      - name: Release build
+        run: swift build -c release

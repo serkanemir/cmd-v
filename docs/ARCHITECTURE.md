@@ -4,7 +4,7 @@ cmd-v is a small Swift command-line helper, not an App Store app.
 
 ## Compatibility
 
-The Swift package declares macOS 12 as its minimum runtime target. Source builds require Swift 6 / Xcode 16 or newer. Current CI builds and tests on GitHub Actions `macos-15`; local development has been tested on macOS 26.4.1.
+The Swift package declares macOS 12 as its deployment target. Source builds require Swift 6 / Xcode 16 or newer. Current CI builds and tests on GitHub Actions `macos-15`; local development has been tested on macOS 26.4.1. Older macOS versions are likely to work but are not verified.
 
 ## Runtime Model
 
@@ -46,4 +46,4 @@ If the clipboard changes during conversion, the generated cache file is removed 
 
 The helper is local-only and has no network code. It stores only generated PNG files required for Finder paste. It does not maintain a clipboard history database.
 
-The first public release should be distributed through GitHub and Homebrew. A signed and notarized binary can be added later to avoid Gatekeeper warnings for non-technical users.
+The public release is distributed through GitHub and Homebrew. A signed and notarized binary can be added in a later release to avoid Gatekeeper warnings for non-technical users.

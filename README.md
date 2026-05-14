@@ -34,7 +34,7 @@ cd cmd-v
 ./scripts/install.sh
 ```
 
-The Homebrew install runs `cmd-v` as a per-user service. The source install copies `cmd-v` to the first writable standard bin directory in your `PATH`, usually `/opt/homebrew/bin/cmd-v` on Apple Silicon Macs. If no standard bin directory is writable, it falls back to `~/.local/bin/cmd-v`. It also starts a per-user LaunchAgent.
+The Homebrew install runs `cmd-v` as a per-user service. The source install copies `cmd-v` to `~/.local/bin/cmd-v` and starts a per-user LaunchAgent. It does not write into Homebrew-owned directories.
 
 Check it:
 
@@ -42,12 +42,18 @@ Check it:
 cmd-v status
 ```
 
+If `~/.local/bin` is not in your shell `PATH`, source installs can be checked with:
+
+```bash
+~/.local/bin/cmd-v status
+```
+
 ## Compatibility
 
-- Runtime target: macOS 12 Monterey or newer.
+- Deployment target: macOS 12 Monterey.
 - Build requirement: Swift 6 / Xcode 16 or newer.
-- Tested locally on macOS 26.4.1 with Apple Swift 6.3.1.
-- CI currently builds and tests on GitHub Actions `macos-15`.
+- Tested on GitHub Actions `macos-15` and locally on macOS 26.4.1 with Apple Swift 6.3.1.
+- Older macOS versions are likely to work but are not verified. Patches welcome.
 - Architecture: builds natively from source for the user's Mac architecture.
 
 Prebuilt signed/notarized binaries are not published yet. Homebrew and source installs build locally from source.
@@ -124,6 +130,15 @@ Cache permissions are locked down:
 Images larger than 100 MB are rejected instead of being written to disk.
 
 ## Uninstall
+
+For Homebrew installs:
+
+```bash
+brew services stop cmd-v
+brew uninstall cmd-v
+```
+
+For source installs:
 
 ```bash
 cmd-v uninstall

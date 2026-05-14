@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if command -v cmd-v >/dev/null 2>&1; then
-  cmd-v uninstall
-elif [ -x "$HOME/.local/bin/cmd-v" ]; then
-  "$HOME/.local/bin/cmd-v" uninstall
-elif [ -x "/opt/homebrew/bin/cmd-v" ]; then
-  "/opt/homebrew/bin/cmd-v" uninstall
-elif [ -x "/usr/local/bin/cmd-v" ]; then
-  "/usr/local/bin/cmd-v" uninstall
-else
-  launchctl bootout "gui/$(id -u)/io.github.serkanemir.cmdv" 2>/dev/null || true
-  rm -f "$HOME/Library/LaunchAgents/io.github.serkanemir.cmdv.plist"
-  rm -f "$HOME/.local/bin/cmd-v"
-  rm -f "/opt/homebrew/bin/cmd-v" 2>/dev/null || true
-  rm -f "/usr/local/bin/cmd-v" 2>/dev/null || true
+source_bin="$HOME/.local/bin/cmd-v"
+plist="$HOME/Library/LaunchAgents/io.github.serkanemir.cmdv.plist"
+
+if [ -x "$source_bin" ]; then
+  "$source_bin" uninstall
+  exit 0
 fi
+
+if [ -f "$plist" ]; then
+  program_path="$(/usr/libexec/PlistBuddy -c 'Print :ProgramArguments:0' "$plist" 2>/dev/null || true)"
+  if [ "$program_path" = "$source_bin" ]; then
+    launchctl bootout "gui/$(id -u)/io.github.serkanemir.cmdv" 2>/dev/null || true
+    rm -f "$plist"
+  fi
+fi
+
+rm -f "$source_bin"
+echo "No source cmd-v installation found at $source_bin."
+echo "If you installed with Homebrew, run: brew services stop cmd-v && brew uninstall cmd-v"
