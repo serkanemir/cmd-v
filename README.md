@@ -152,16 +152,6 @@ or from the repo:
 ./scripts/uninstall.sh
 ```
 
-## Distribution Plan
-
-The public distribution path is:
-
-```bash
-brew tap serkanemir/tap
-brew install cmd-v
-brew services start cmd-v
-```
-
 ## License
 
 MIT
