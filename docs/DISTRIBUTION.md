@@ -19,19 +19,20 @@ Current source-build requirements:
 - macOS 12 Monterey or newer runtime target
 - Swift 6 / Xcode 16 or newer to build from source
 
-## Phase 2: Homebrew Tap
+## Homebrew Tap
 
-Create a tap repository, for example:
+The tap repository is:
 
 ```text
 github.com/serkanemir/homebrew-tap
 ```
 
-Then add a formula so users can install with:
+Users can install with:
 
 ```bash
 brew tap serkanemir/tap
 brew install cmd-v
+brew services start cmd-v
 ```
 
 The draft formula lives at:

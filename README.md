@@ -1,5 +1,9 @@
 # cmd-v
 
+[![CI](https://github.com/serkanemir/cmd-v/actions/workflows/ci.yml/badge.svg)](https://github.com/serkanemir/cmd-v/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/serkanemir/cmd-v?include_prereleases&sort=semver)](https://github.com/serkanemir/cmd-v/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Paste clipboard images into Finder as files with `Cmd+V`.
 
 cmd-v is a tiny native macOS helper. When your clipboard contains an image, it prepares a private temporary PNG file reference alongside safe image data. Finder can then use its normal `Cmd+V` behavior to paste that image into the current folder as a file.
@@ -14,7 +18,15 @@ macOS can copy screenshots directly to the clipboard, but Finder does not paste 
 
 ## Install
 
-For now, build and install from source:
+With Homebrew:
+
+```bash
+brew tap serkanemir/tap
+brew install cmd-v
+brew services start cmd-v
+```
+
+Or build and install from source:
 
 ```bash
 git clone https://github.com/serkanemir/cmd-v.git
@@ -22,7 +34,13 @@ cd cmd-v
 ./scripts/install.sh
 ```
 
-This installs `cmd-v` to the first writable standard bin directory in your `PATH`, usually `/opt/homebrew/bin/cmd-v` on Apple Silicon Macs. If no standard bin directory is writable, it falls back to `~/.local/bin/cmd-v`. It also starts a per-user LaunchAgent.
+The Homebrew install runs `cmd-v` as a per-user service. The source install copies `cmd-v` to the first writable standard bin directory in your `PATH`, usually `/opt/homebrew/bin/cmd-v` on Apple Silicon Macs. If no standard bin directory is writable, it falls back to `~/.local/bin/cmd-v`. It also starts a per-user LaunchAgent.
+
+Check it:
+
+```bash
+cmd-v status
+```
 
 ## Compatibility
 
@@ -32,7 +50,7 @@ This installs `cmd-v` to the first writable standard bin directory in your `PATH
 - CI currently builds and tests on GitHub Actions `macos-15`.
 - Architecture: builds natively from source for the user's Mac architecture.
 
-Prebuilt signed/notarized binaries are not published yet. Until then, users build locally from source.
+Prebuilt signed/notarized binaries are not published yet. Homebrew and source installs build locally from source.
 
 ## Use
 
@@ -119,13 +137,13 @@ or from the repo:
 
 ## Distribution Plan
 
-The intended public distribution path is:
+The public distribution path is:
 
 ```bash
+brew tap serkanemir/tap
 brew install cmd-v
+brew services start cmd-v
 ```
-
-Until the Homebrew formula exists, source install is the canonical path.
 
 ## License
 
