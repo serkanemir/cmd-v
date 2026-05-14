@@ -2,6 +2,10 @@
 
 cmd-v is a small Swift command-line helper, not an App Store app.
 
+## Compatibility
+
+The Swift package declares macOS 12 as its minimum runtime target. Source builds require Swift 6 / Xcode 16 or newer. Current CI builds and tests on GitHub Actions `macos-15`; local development has been tested on macOS 26.4.1.
+
 ## Runtime Model
 
 `cmd-v run` starts a foreground pasteboard monitor. The install command registers the same process as a per-user LaunchAgent:

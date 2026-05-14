@@ -24,6 +24,16 @@ cd cmd-v
 
 This installs `cmd-v` to the first writable standard bin directory in your `PATH`, usually `/opt/homebrew/bin/cmd-v` on Apple Silicon Macs. If no standard bin directory is writable, it falls back to `~/.local/bin/cmd-v`. It also starts a per-user LaunchAgent.
 
+## Compatibility
+
+- Runtime target: macOS 12 Monterey or newer.
+- Build requirement: Swift 6 / Xcode 16 or newer.
+- Tested locally on macOS 26.4.1 with Apple Swift 6.3.1.
+- CI currently builds and tests on GitHub Actions `macos-15`.
+- Architecture: builds natively from source for the user's Mac architecture.
+
+Prebuilt signed/notarized binaries are not published yet. Until then, users build locally from source.
+
 ## Use
 
 1. Take a screenshot to the clipboard, for example `Ctrl+Cmd+Shift+4`.

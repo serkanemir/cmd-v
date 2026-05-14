@@ -9,10 +9,11 @@ Before each release:
 5. Confirm no local test screenshots or generated files are tracked.
 6. Run `swift test`.
 7. Run `./scripts/install.sh`.
-8. Test `Ctrl+Cmd+Shift+4` screenshot to clipboard, then Finder `Cmd+V`.
-9. Test copied web image to Finder `Cmd+V`.
-10. Test copying an existing file in Finder remains unchanged.
-11. Tag `v0.1.0`.
-12. Create a GitHub release.
-13. Update the Homebrew formula checksum.
-14. Decide whether to sign and notarize a binary release.
+8. Confirm `otool -l $(command -v cmd-v)` reports `minos 12.0`.
+9. Test `Ctrl+Cmd+Shift+4` screenshot to clipboard, then Finder `Cmd+V`.
+10. Test copied web image to Finder `Cmd+V`.
+11. Test copying an existing file in Finder remains unchanged.
+12. Tag `v0.1.0`.
+13. Create a GitHub release.
+14. Update the Homebrew formula checksum.
+15. Decide whether to sign and notarize a binary release.

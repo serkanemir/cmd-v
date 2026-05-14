@@ -14,6 +14,11 @@ cd cmd-v
 
 This builds a release binary, copies it to the first writable standard bin directory in `PATH`, and registers a per-user LaunchAgent.
 
+Current source-build requirements:
+
+- macOS 12 Monterey or newer runtime target
+- Swift 6 / Xcode 16 or newer to build from source
+
 ## Phase 2: Homebrew Tap
 
 Create a tap repository, for example:
@@ -48,8 +53,9 @@ This does not require the Mac App Store, but it does require an Apple Developer 
 1. Update `Version.current`.
 2. Run `swift test`.
 3. Build release with `swift build -c release`.
-4. Tag the release.
-5. Upload source archive and optional notarized binary.
-6. Update the Homebrew formula checksum.
+4. Confirm the built binary reports `minos 12.0` with `otool -l`.
+5. Tag the release.
+6. Upload source archive and optional notarized binary.
+7. Update the Homebrew formula checksum.
 
 See `docs/PUBLIC_RELEASE_CHECKLIST.md` before publishing a release.
