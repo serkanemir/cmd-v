@@ -71,6 +71,13 @@ It watches the pasteboard change count locally and only acts when the current cl
 
 To avoid copying unrelated clipboard metadata, cmd-v rewrites the pasteboard with a normalized image item and the generated file reference. It does not preserve source HTML, source URLs, or arbitrary app-private pasteboard types.
 
+See also:
+
+- `PRIVACY.md`
+- `SECURITY.md`
+- `docs/THREAT_MODEL.md`
+- `docs/SECURITY_REVIEW.md`
+
 ## Cache
 
 Prepared images are stored in:
