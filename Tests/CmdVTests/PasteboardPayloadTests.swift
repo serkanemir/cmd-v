@@ -1,7 +1,7 @@
 import AppKit
 import Foundation
 import Testing
-@testable import CommandV
+@testable import CmdV
 
 @Test func pasteboardPayloadOnlyExposesImageAndGeneratedMarkers() throws {
     let payload = PasteboardPayload(pngData: minimalPNGData, fileURL: URL(fileURLWithPath: "/tmp/cmd-v Test.png"))

@@ -36,12 +36,12 @@ enum ImageCandidate {
             return data
         case .encoded(let data):
             guard let image = NSImage(data: data), let png = image.pngRepresentation() else {
-                throw CommandVError.imageConversionFailed
+                throw CmdVError.imageConversionFailed
             }
             return png
         case .image(let image):
             guard let png = image.pngRepresentation() else {
-                throw CommandVError.imageConversionFailed
+                throw CmdVError.imageConversionFailed
             }
             return png
         }

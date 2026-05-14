@@ -8,15 +8,15 @@ let package = Package(
         .macOS(.v12)
     ],
     products: [
-        .executable(name: "cmd-v", targets: ["CommandV"])
+        .executable(name: "cmd-v", targets: ["CmdV"])
     ],
     targets: [
         .executableTarget(
-            name: "CommandV"
+            name: "CmdV"
         ),
         .testTarget(
-            name: "CommandVTests",
-            dependencies: ["CommandV"]
+            name: "CmdVTests",
+            dependencies: ["CmdV"]
         )
     ]
 )

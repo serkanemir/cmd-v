@@ -1,6 +1,6 @@
 import Foundation
 
-enum CommandVError: LocalizedError {
+enum CmdVError: LocalizedError {
     case invalidCommand(String)
     case noImageOnPasteboard
     case imageConversionFailed

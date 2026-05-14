@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import CommandV
+@testable import CmdV
 
 @Test func cacheWritesPNGFiles() throws {
     let directory = FileManager.default.temporaryDirectory

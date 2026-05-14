@@ -60,7 +60,7 @@ final class ClipboardConverter {
         pasteboard.clearContents()
 
         guard pasteboard.writeObjects(payload.objects) else {
-            throw CommandVError.pasteboardWriteFailed
+            throw CmdVError.pasteboardWriteFailed
         }
 
         lastObservedChangeCount = pasteboard.changeCount
@@ -75,7 +75,7 @@ enum ImageSizePolicy {
 
     static func validate(_ data: Data) throws {
         guard data.count <= maximumPNGBytes else {
-            throw CommandVError.imageTooLarge(bytes: data.count, maximumBytes: maximumPNGBytes)
+            throw CmdVError.imageTooLarge(bytes: data.count, maximumBytes: maximumPNGBytes)
         }
     }
 }

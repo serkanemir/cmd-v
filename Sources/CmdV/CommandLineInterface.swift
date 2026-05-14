@@ -50,7 +50,7 @@ struct CommandLineInterface {
         case "-h", "--help", "help":
             logger.print(Self.helpText)
         default:
-            throw CommandVError.invalidCommand(command)
+            throw CmdVError.invalidCommand(command)
         }
     }
 

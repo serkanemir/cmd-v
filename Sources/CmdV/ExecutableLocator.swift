@@ -7,7 +7,7 @@ enum ExecutableLocator {
         }
 
         guard let firstArgument = CommandLine.arguments.first, !firstArgument.isEmpty else {
-            throw CommandVError.executableNotFound
+            throw CmdVError.executableNotFound
         }
 
         let url: URL

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import CommandV
+@testable import CmdV
 
 @Test func filenameIsFinderSafeAndStable() throws {
     let date = Date(timeIntervalSince1970: 1_715_702_400)

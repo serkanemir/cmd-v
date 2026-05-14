@@ -23,7 +23,7 @@ enum ProcessRunner {
         let output = String(data: outputData, encoding: .utf8) ?? ""
 
         guard process.terminationStatus == 0 else {
-            throw CommandVError.processFailed(
+            throw CmdVError.processFailed(
                 executable: executable,
                 arguments: arguments,
                 status: process.terminationStatus,
