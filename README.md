@@ -12,6 +12,8 @@ Maintainer: [Serkan Emir](https://github.com/serkanemir)
 
 Status: public alpha.
 
+![cmd-v demo](docs/media/demo.gif)
+
 ## Why
 
 macOS can copy screenshots directly to the clipboard, but Finder does not paste raw image clipboard data as a new file. cmd-v fills only that gap.
