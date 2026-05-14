@@ -3,12 +3,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "CommandV",
+    name: "cmd-v",
     platforms: [
         .macOS(.v12)
     ],
     products: [
-        .executable(name: "command-v", targets: ["CommandV"])
+        .executable(name: "cmd-v", targets: ["CommandV"])
     ],
     targets: [
         .executableTarget(

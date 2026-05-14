@@ -16,7 +16,7 @@ final class ClipboardMonitor {
     }
 
     func run() throws {
-        logger.info("Command V is running. Press Ctrl+C to stop.")
+        logger.info("cmd-v is running. Press Ctrl+C to stop.")
 
         while true {
             do {

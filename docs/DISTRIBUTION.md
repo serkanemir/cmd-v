@@ -1,6 +1,6 @@
 # Distribution
 
-Command V is designed for GitHub and Homebrew distribution, not the Mac App Store.
+cmd-v is designed for GitHub and Homebrew distribution, not the Mac App Store.
 
 ## Phase 1: Source Install
 
@@ -12,7 +12,7 @@ cd cmd-v
 ./scripts/install.sh
 ```
 
-This builds a release binary, copies it to `~/.local/bin/command-v`, and registers a per-user LaunchAgent.
+This builds a release binary, copies it to the first writable standard bin directory in `PATH`, and registers a per-user LaunchAgent.
 
 ## Phase 2: Homebrew Tap
 
@@ -26,13 +26,13 @@ Then add a formula so users can install with:
 
 ```bash
 brew tap serkanemir/tap
-brew install command-v
+brew install cmd-v
 ```
 
 The draft formula lives at:
 
 ```text
-packaging/homebrew/command-v.rb
+packaging/homebrew/cmd-v.rb
 ```
 
 Once the project has enough usage, submit it to Homebrew core if it fits their acceptance rules.
@@ -51,3 +51,5 @@ This does not require the Mac App Store, but it does require an Apple Developer 
 4. Tag the release.
 5. Upload source archive and optional notarized binary.
 6. Update the Homebrew formula checksum.
+
+See `docs/PUBLIC_RELEASE_CHECKLIST.md` before making the repository public.

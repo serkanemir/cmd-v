@@ -2,23 +2,24 @@ import Darwin
 import Foundation
 
 struct LaunchAgent {
-    static let label = "dev.commandv.service"
+    static let label = "io.github.serkanemir.cmdv"
+    private static let legacyLabels = ["dev.commandv.service"]
 
     let binaryURL: URL
 
     static var plistURL: URL {
-        FileManager.default
-            .homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/LaunchAgents/\(label).plist")
+        plistURL(for: label)
     }
 
     static var logDirectory: URL {
         FileManager.default
             .homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/Logs/CommandV", isDirectory: true)
+            .appendingPathComponent("Library/Logs/cmd-v", isDirectory: true)
     }
 
     func install() throws {
+        try Self.removeLegacyAgents()
+
         try FileManager.default.createDirectory(
             at: Self.plistURL.deletingLastPathComponent(),
             withIntermediateDirectories: true
@@ -30,10 +31,10 @@ struct LaunchAgent {
             "ProgramArguments": [binaryURL.path, "run"],
             "RunAtLoad": true,
             "KeepAlive": true,
-            "StandardOutPath": Self.logDirectory.appendingPathComponent("command-v.out.log").path,
-            "StandardErrorPath": Self.logDirectory.appendingPathComponent("command-v.err.log").path,
+            "StandardOutPath": Self.logDirectory.appendingPathComponent("cmd-v.out.log").path,
+            "StandardErrorPath": Self.logDirectory.appendingPathComponent("cmd-v.err.log").path,
             "EnvironmentVariables": [
-                "COMMAND_V_LAUNCH_AGENT": "1"
+                "CMD_V_LAUNCH_AGENT": "1"
             ]
         ]
 
@@ -50,8 +51,12 @@ struct LaunchAgent {
 
     static func uninstall() throws {
         try? stop()
-        if FileManager.default.fileExists(atPath: plistURL.path) {
-            try FileManager.default.removeItem(at: plistURL)
+        for label in [Self.label] + legacyLabels {
+            try? bootout(label: label)
+            let plistURL = plistURL(for: label)
+            if FileManager.default.fileExists(atPath: plistURL.path) {
+                try FileManager.default.removeItem(at: plistURL)
+            }
         }
     }
 
@@ -64,10 +69,7 @@ struct LaunchAgent {
     }
 
     static func stop() throws {
-        try ProcessRunner.run(
-            executable: "/bin/launchctl",
-            arguments: ["bootout", serviceTarget]
-        )
+        try bootout(label: label)
     }
 
     static func restart() throws {
@@ -90,6 +92,29 @@ struct LaunchAgent {
         )
     }
 
+    private static func removeLegacyAgents() throws {
+        for label in legacyLabels {
+            try? bootout(label: label)
+            let plistURL = plistURL(for: label)
+            if FileManager.default.fileExists(atPath: plistURL.path) {
+                try FileManager.default.removeItem(at: plistURL)
+            }
+        }
+    }
+
+    private static func bootout(label: String) throws {
+        try ProcessRunner.run(
+            executable: "/bin/launchctl",
+            arguments: ["bootout", serviceTarget(for: label)]
+        )
+    }
+
+    private static func plistURL(for label: String) -> URL {
+        FileManager.default
+            .homeDirectoryForCurrentUser
+            .appendingPathComponent("Library/LaunchAgents/\(label).plist")
+    }
+
     private static var uid: uid_t {
         getuid()
     }
@@ -99,6 +124,10 @@ struct LaunchAgent {
     }
 
     private static var serviceTarget: String {
+        serviceTarget(for: label)
+    }
+
+    private static func serviceTarget(for label: String) -> String {
         "\(guiTarget)/\(label)"
     }
 }

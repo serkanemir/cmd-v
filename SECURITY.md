@@ -1,6 +1,8 @@
 # Security
 
-Command V touches clipboard data, so the project keeps a deliberately small security surface.
+cmd-v touches clipboard data, so the project keeps a deliberately small security surface.
+
+Maintainer: [Serkan Emir](https://github.com/serkanemir)
 
 ## Local-Only Design
 
@@ -14,16 +16,25 @@ Command V touches clipboard data, so the project keeps a deliberately small secu
 
 The helper only watches `NSPasteboard.general.changeCount`. When the current clipboard contains image data and does not already contain a file reference, it writes a temporary PNG and appends that file reference to the pasteboard.
 
+cmd-v does not preserve arbitrary pasteboard types. It intentionally normalizes the clipboard down to image data plus the generated file reference, so copied source URLs, HTML fragments, and app-private pasteboard metadata are not carried forward.
+
 ## Cached Images
 
 Generated PNG files are stored in:
 
 ```text
-~/Library/Caches/CommandV/ClipboardImages
+~/Library/Caches/cmd-v/ClipboardImages
 ```
 
-The cache exists so Finder can paste a real file. Old files are pruned automatically, and Command V keeps only a small number of recent generated images.
+The cache exists so Finder can paste a real file. Old files are pruned automatically, and cmd-v keeps only a small number of recent generated images.
+
+Cache permissions:
+
+- Directory: `0700`
+- Generated PNG files: `0600`
+
+cmd-v rejects generated PNG payloads above 100 MB.
 
 ## Reporting Issues
 
-For now, open a private issue or contact the maintainer directly before publishing a security report. Once the public GitHub repo is created, this section should be updated with the maintainer email.
+While the repository is private, open a private issue with the maintainer. Before the repository becomes public, enable GitHub private vulnerability reporting and update this section with the preferred disclosure path.

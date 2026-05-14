@@ -1,13 +1,13 @@
 # Architecture
 
-Command V is a small Swift command-line helper, not an App Store app.
+cmd-v is a small Swift command-line helper, not an App Store app.
 
 ## Runtime Model
 
-`command-v run` starts a foreground pasteboard monitor. The install command registers the same process as a per-user LaunchAgent:
+`cmd-v run` starts a foreground pasteboard monitor. The install command registers the same process as a per-user LaunchAgent:
 
 ```text
-~/Library/LaunchAgents/dev.commandv.service.plist
+~/Library/LaunchAgents/io.github.serkanemir.cmdv.plist
 ```
 
 The monitor polls `NSPasteboard.general.changeCount`. It does not install a keyboard hook, event tap, Finder extension, or Accessibility automation.
@@ -16,12 +16,27 @@ The monitor polls `NSPasteboard.general.changeCount`. It does not install a keyb
 
 When the clipboard changes:
 
-1. If the pasteboard already contains a file URL, Command V skips it.
-2. If the pasteboard contains image data, Command V materializes a PNG under `~/Library/Caches/CommandV/ClipboardImages`.
-3. It restores the original pasteboard items.
-4. It appends a file URL for the generated PNG.
+1. If the pasteboard already contains a file URL, cmd-v skips it.
+2. If the pasteboard contains image data, cmd-v materializes a PNG under `~/Library/Caches/cmd-v/ClipboardImages`.
+3. It verifies that the pasteboard has not changed while the PNG was being generated.
+4. It rewrites the pasteboard with a normalized image item.
+5. It appends a file URL for the generated PNG.
 
 Finder can then paste the image file with its normal `Cmd+V` behavior.
+
+cmd-v does not preserve arbitrary pasteboard types. This is intentional: source HTML, source URLs, and app-private metadata are excluded to keep the clipboard surface small and predictable.
+
+## Storage
+
+Generated files live in:
+
+```text
+~/Library/Caches/cmd-v/ClipboardImages
+```
+
+The cache directory is `0700`. Generated PNG files are `0600`. Files above 100 MB are rejected before writing.
+
+If the clipboard changes during conversion, the generated cache file is removed and the newer clipboard contents are left alone.
 
 ## Security Posture
 

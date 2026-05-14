@@ -16,33 +16,50 @@ final class ClipboardConverter {
     }
 
     func convertCurrentPasteboard(force: Bool = false) throws -> ConversionOutcome {
-        if !force, pasteboard.changeCount == lastObservedChangeCount {
+        let observedChangeCount = pasteboard.changeCount
+
+        if !force, observedChangeCount == lastObservedChangeCount {
             return .skipped("Clipboard has not changed.")
         }
 
         if PasteboardInspector.containsFileReference(in: pasteboard) {
-            lastObservedChangeCount = pasteboard.changeCount
+            lastObservedChangeCount = observedChangeCount
             return .skipped("Clipboard already contains a file reference.")
         }
 
         guard let image = ImageCandidate.first(in: pasteboard) else {
-            lastObservedChangeCount = pasteboard.changeCount
+            lastObservedChangeCount = observedChangeCount
             return .skipped("Clipboard does not contain an image.")
         }
 
-        let pngData = try image.pngData()
-        let fileURL = try cacheStore.writePNG(pngData)
-        let snapshot = PasteboardSnapshot.capture(from: pasteboard)
-
-        guard !snapshot.items.isEmpty else {
-            throw CommandVError.noImageOnPasteboard
+        let pngData: Data
+        do {
+            pngData = try image.pngData()
+            try ImageSizePolicy.validate(pngData)
+        } catch {
+            lastObservedChangeCount = observedChangeCount
+            throw error
         }
 
-        pasteboard.clearContents()
-        var objects: [NSPasteboardWriting] = snapshot.items
-        objects.append(fileURL as NSURL)
+        let fileURL: URL
+        do {
+            fileURL = try cacheStore.writePNG(pngData)
+        } catch {
+            lastObservedChangeCount = observedChangeCount
+            throw error
+        }
 
-        guard pasteboard.writeObjects(objects) else {
+        guard pasteboard.changeCount == observedChangeCount else {
+            try? cacheStore.remove(fileURL)
+            lastObservedChangeCount = pasteboard.changeCount
+            return .skipped("Clipboard changed during conversion.")
+        }
+
+        let payload = PasteboardPayload(pngData: pngData, fileURL: fileURL)
+
+        pasteboard.clearContents()
+
+        guard pasteboard.writeObjects(payload.objects) else {
             throw CommandVError.pasteboardWriteFailed
         }
 
@@ -50,6 +67,16 @@ final class ClipboardConverter {
         try cacheStore.prune(keeping: fileURL)
 
         return .converted(fileURL)
+    }
+}
+
+enum ImageSizePolicy {
+    static let maximumPNGBytes = 100 * 1024 * 1024
+
+    static func validate(_ data: Data) throws {
+        guard data.count <= maximumPNGBytes else {
+            throw CommandVError.imageTooLarge(bytes: data.count, maximumBytes: maximumPNGBytes)
+        }
     }
 }
 

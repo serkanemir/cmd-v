@@ -7,6 +7,6 @@ enum FilenameGenerator {
         formatter.dateFormat = "yyyy-MM-dd 'at' HH.mm.ss"
 
         let suffixText = suffix.map { " \($0)" } ?? ""
-        return "Command V \(formatter.string(from: date))\(suffixText).png"
+        return "cmd-v \(formatter.string(from: date))\(suffixText).png"
     }
 }

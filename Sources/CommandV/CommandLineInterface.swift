@@ -26,21 +26,21 @@ struct CommandLineInterface {
         case "install":
             let installedBinary = try Installer().installCurrentExecutable()
             try LaunchAgent(binaryURL: installedBinary).install()
-            logger.print("Command V installed and started.")
+            logger.print("cmd-v installed and started.")
             logger.print("Binary: \(installedBinary.path)")
         case "uninstall":
             try LaunchAgent.uninstall()
             try Installer().removeInstalledBinaryIfPresent()
-            logger.print("Command V stopped and uninstalled.")
+            logger.print("cmd-v stopped and uninstalled.")
         case "start":
             try LaunchAgent.start()
-            logger.print("Command V started.")
+            logger.print("cmd-v started.")
         case "stop":
             try LaunchAgent.stop()
-            logger.print("Command V stopped.")
+            logger.print("cmd-v stopped.")
         case "restart":
             try LaunchAgent.restart()
-            logger.print("Command V restarted.")
+            logger.print("cmd-v restarted.")
         case "status":
             try LaunchAgent.status()
         case "doctor":
@@ -55,20 +55,20 @@ struct CommandLineInterface {
     }
 
     static let helpText = """
-    Command V \(Version.current)
+    cmd-v \(Version.current)
 
     Paste clipboard images into Finder as files with Cmd+V.
 
     Usage:
-      command-v run         Run the clipboard helper in the foreground
-      command-v convert     Convert the current clipboard image once
-      command-v install     Install the helper for the current user and start it
-      command-v uninstall   Stop and remove the helper
-      command-v start       Start the LaunchAgent
-      command-v stop        Stop the LaunchAgent
-      command-v restart     Restart the LaunchAgent
-      command-v status      Print LaunchAgent status
-      command-v doctor      Print local diagnostics
-      command-v version     Print version
+      cmd-v run         Run the clipboard helper in the foreground
+      cmd-v convert     Convert the current clipboard image once
+      cmd-v install     Install the helper for the current user and start it
+      cmd-v uninstall   Stop and remove the helper
+      cmd-v start       Start the LaunchAgent
+      cmd-v stop        Stop the LaunchAgent
+      cmd-v restart     Restart the LaunchAgent
+      cmd-v status      Print LaunchAgent status
+      cmd-v doctor      Print local diagnostics
+      cmd-v version     Print version
     """
 }

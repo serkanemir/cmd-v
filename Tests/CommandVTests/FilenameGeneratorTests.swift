@@ -6,7 +6,7 @@ import Testing
     let date = Date(timeIntervalSince1970: 1_715_702_400)
     let name = FilenameGenerator.fileName(for: date)
 
-    #expect(name.hasPrefix("Command V "))
+    #expect(name.hasPrefix("cmd-v "))
     #expect(name.hasSuffix(".png"))
     #expect(!name.contains(":"))
 }

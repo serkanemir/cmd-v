@@ -15,13 +15,13 @@ struct CacheStore {
         self.fileManager = fileManager
         self.directory = directory ?? fileManager
             .homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/Caches/CommandV/ClipboardImages", isDirectory: true)
+            .appendingPathComponent("Library/Caches/cmd-v/ClipboardImages", isDirectory: true)
         self.retention = retention
         self.maximumFileCount = maximumFileCount
     }
 
     func writePNG(_ data: Data, date: Date = Date()) throws -> URL {
-        try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+        try ensurePrivateDirectory()
 
         let baseName = FilenameGenerator.fileName(for: date)
         var destination = directory.appendingPathComponent(baseName)
@@ -35,6 +35,7 @@ struct CacheStore {
         }
 
         try data.write(to: destination, options: .atomic)
+        try fileManager.setAttributes([.posixPermissions: 0o600], ofItemAtPath: destination.path)
         return destination
     }
 
@@ -79,6 +80,37 @@ struct CacheStore {
         let overflow = max(0, remaining.count - max(0, maximumFileCount - 1))
         for file in remaining.prefix(overflow) {
             try? fileManager.removeItem(at: file)
+        }
+    }
+
+    func remove(_ fileURL: URL) throws {
+        let cachePath = directory.standardizedFileURL.path
+        let filePath = fileURL.standardizedFileURL.path
+
+        guard filePath.hasPrefix(cachePath + "/") else {
+            return
+        }
+
+        if fileManager.fileExists(atPath: filePath) {
+            try fileManager.removeItem(at: fileURL)
+        }
+    }
+
+    private func ensurePrivateDirectory() throws {
+        try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+        try fileManager.setAttributes([.posixPermissions: 0o700], ofItemAtPath: directory.path)
+        try hardenExistingCacheFiles()
+    }
+
+    private func hardenExistingCacheFiles() throws {
+        let files = try fileManager.contentsOfDirectory(
+            at: directory,
+            includingPropertiesForKeys: nil,
+            options: [.skipsHiddenFiles]
+        )
+
+        for file in files where file.pathExtension.lowercased() == "png" {
+            try? fileManager.setAttributes([.posixPermissions: 0o600], ofItemAtPath: file.path)
         }
     }
 }

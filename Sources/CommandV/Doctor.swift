@@ -5,7 +5,7 @@ struct Doctor {
     let logger: Logger
 
     func run() throws {
-        logger.print("Command V \(Version.current)")
+        logger.print("cmd-v \(Version.current)")
         logger.print("Executable: \((try? ExecutableLocator.currentExecutableURL().path) ?? "unknown")")
         logger.print("Install path: \(Installer().installURL.path)")
         logger.print("LaunchAgent: \(LaunchAgent.plistURL.path)")

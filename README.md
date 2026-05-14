@@ -1,12 +1,16 @@
-# Command V
+# cmd-v
 
 Paste clipboard images into Finder as files with `Cmd+V`.
 
-Command V is a tiny native macOS helper. When your clipboard contains an image, it prepares a temporary PNG file reference alongside the original image data. Finder can then use its normal `Cmd+V` behavior to paste that image into the current folder as a file.
+cmd-v is a tiny native macOS helper. When your clipboard contains an image, it prepares a private temporary PNG file reference alongside safe image data. Finder can then use its normal `Cmd+V` behavior to paste that image into the current folder as a file.
+
+Maintainer: [Serkan Emir](https://github.com/serkanemir)
+
+Status: private alpha, working locally.
 
 ## Why
 
-macOS can copy screenshots directly to the clipboard, but Finder does not paste raw image clipboard data as a new file. Command V fills only that gap.
+macOS can copy screenshots directly to the clipboard, but Finder does not paste raw image clipboard data as a new file. cmd-v fills only that gap.
 
 ## Install
 
@@ -18,7 +22,7 @@ cd cmd-v
 ./scripts/install.sh
 ```
 
-This installs `command-v` to `~/.local/bin/command-v` and starts a per-user LaunchAgent.
+This installs `cmd-v` to the first writable standard bin directory in your `PATH`, usually `/opt/homebrew/bin/cmd-v` on Apple Silicon Macs. If no standard bin directory is writable, it falls back to `~/.local/bin/cmd-v`. It also starts a per-user LaunchAgent.
 
 ## Use
 
@@ -28,28 +32,30 @@ This installs `command-v` to `~/.local/bin/command-v` and starts a per-user Laun
 
 The pasted file is created from a cached PNG representation of the clipboard image.
 
+This flow has been tested with a local Finder folder and `Cmd+V`.
+
 ## Commands
 
 ```bash
-command-v status
-command-v stop
-command-v start
-command-v restart
-command-v doctor
-command-v uninstall
+cmd-v status
+cmd-v stop
+cmd-v start
+cmd-v restart
+cmd-v doctor
+cmd-v uninstall
 ```
 
 For development:
 
 ```bash
-swift run command-v run
-swift run command-v convert
+swift run cmd-v run
+swift run cmd-v convert
 swift test
 ```
 
 ## Privacy
 
-Command V is intentionally narrow:
+cmd-v is intentionally narrow:
 
 - No clipboard history
 - No telemetry
@@ -57,25 +63,49 @@ Command V is intentionally narrow:
 - No accounts
 - No cloud sync
 - No App Store dependency
+- No keyboard hook
+- No Accessibility permission
+- No Finder automation
 
 It watches the pasteboard change count locally and only acts when the current clipboard contains image data and no existing file reference.
+
+To avoid copying unrelated clipboard metadata, cmd-v rewrites the pasteboard with a normalized image item and the generated file reference. It does not preserve source HTML, source URLs, or arbitrary app-private pasteboard types.
 
 ## Cache
 
 Prepared images are stored in:
 
 ```text
-~/Library/Caches/CommandV/ClipboardImages
+~/Library/Caches/cmd-v/ClipboardImages
 ```
 
 The helper keeps the current prepared image and prunes older cached PNGs. This is needed because Finder pastes from a real file reference.
+
+Cache permissions are locked down:
+
+- Directory: `0700`
+- Generated PNG files: `0600`
+
+Images larger than 100 MB are rejected instead of being written to disk.
+
+## Uninstall
+
+```bash
+cmd-v uninstall
+```
+
+or from the repo:
+
+```bash
+./scripts/uninstall.sh
+```
 
 ## Distribution Plan
 
 The intended public distribution path is:
 
 ```bash
-brew install command-v
+brew install cmd-v
 ```
 
 Until the Homebrew formula exists, source install is the canonical path.
