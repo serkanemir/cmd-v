@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-05-14
+
+### Changed
+
+- Switch the Homebrew distribution path to a prebuilt universal macOS binary.
+- Clarify that manual testing has only been done on macOS 26.4.1 so far.
+- Document that other macOS versions have not been manually verified yet.
+
 ## [0.1.1] - 2026-05-14
 
 ### Changed
@@ -29,6 +37,7 @@ All notable changes to this project are documented in this file.
 - Store generated PNGs with private file permissions.
 - Add tests for cache permissions, payload shape, filename generation, and size limits.
 
-[Unreleased]: https://github.com/serkanemir/cmd-v/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/serkanemir/cmd-v/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/serkanemir/cmd-v/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/serkanemir/cmd-v/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/serkanemir/cmd-v/releases/tag/v0.1.0

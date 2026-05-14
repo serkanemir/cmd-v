@@ -53,12 +53,14 @@ If `~/.local/bin` is not in your shell `PATH`, source installs can be checked wi
 ## Compatibility
 
 - Deployment target: macOS 12 Monterey.
-- Build requirement: Swift 6 / Xcode 16 or newer.
-- Tested on GitHub Actions `macos-15` and locally on macOS 26.4.1 with Apple Swift 6.3.1.
-- Older macOS versions are likely to work but are not verified. Patches welcome.
+- Homebrew install: uses a prebuilt universal macOS binary and does not require local Xcode.
+- Source build requirement: Swift 6 / Xcode 16 or newer.
+- Manually tested on macOS 26.4.1 with Apple Swift 6.3.1.
+- CI builds and tests on GitHub Actions `macos-15`.
+- Other macOS versions have not been manually verified yet. Patches welcome.
 - Architecture: builds natively from source for the user's Mac architecture.
 
-Prebuilt signed/notarized binaries are not published yet. Homebrew and source installs build locally from source.
+Homebrew installs a prebuilt unsigned universal macOS binary from GitHub Releases. Source installs build locally from source.
 
 ## Use
 

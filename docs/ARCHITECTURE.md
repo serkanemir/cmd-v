@@ -4,7 +4,9 @@ cmd-v is a small Swift command-line helper, not an App Store app.
 
 ## Compatibility
 
-The Swift package declares macOS 12 as its deployment target. Source builds require Swift 6 / Xcode 16 or newer. Current CI builds and tests on GitHub Actions `macos-15`; local development has been tested on macOS 26.4.1. Older macOS versions are likely to work but are not verified.
+The Swift package declares macOS 12 as its deployment target. Homebrew installs a prebuilt universal macOS binary and does not require local Xcode. Source builds require Swift 6 / Xcode 16 or newer.
+
+Manual testing has been done on macOS 26.4.1 with Apple Swift 6.3.1. CI builds and tests on GitHub Actions `macos-15`. Other macOS versions have not been manually verified yet.
 
 ## Runtime Model
 

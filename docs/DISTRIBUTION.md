@@ -35,6 +35,8 @@ brew install cmd-v
 brew services start cmd-v
 ```
 
+The Homebrew formula installs a prebuilt universal macOS binary from GitHub Releases. This avoids requiring each user to have a working local Swift/Xcode build setup.
+
 The live formula is maintained in the tap repository:
 
 ```text
@@ -55,10 +57,10 @@ Target: revisit signed and notarized release artifacts for `v0.2.0`.
 
 1. Update `Version.current`.
 2. Run `swift test`.
-3. Build release with `swift build -c release`.
+3. Build release with `swift build -c release --arch arm64 --arch x86_64`.
 4. Confirm the built binary reports `minos 12.0` with `otool -l`.
 5. Tag the release.
-6. Upload source archive and optional notarized binary.
+6. Package and upload the universal binary tarball.
 7. Update the Homebrew tap formula URL and checksum.
 
 See `docs/PUBLIC_RELEASE_CHECKLIST.md` before publishing a release.
