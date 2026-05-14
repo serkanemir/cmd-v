@@ -72,7 +72,19 @@ The pasted file is created from a cached PNG representation of the clipboard ima
 
 This flow has been tested with a local Finder folder and `Cmd+V`.
 
-## Commands
+## Manage
+
+For Homebrew installs:
+
+```bash
+brew services start cmd-v
+brew services stop cmd-v
+brew services restart cmd-v
+brew services info cmd-v
+brew uninstall cmd-v
+```
+
+For source installs:
 
 ```bash
 cmd-v status
@@ -82,6 +94,8 @@ cmd-v restart
 cmd-v doctor
 cmd-v uninstall
 ```
+
+`cmd-v uninstall` only removes source installs from `~/.local/bin/cmd-v`. If you installed with Homebrew, use `brew services stop cmd-v` and `brew uninstall cmd-v` so Homebrew can remove the files it owns.
 
 For development:
 
@@ -135,14 +149,14 @@ Images larger than 100 MB are rejected instead of being written to disk.
 
 ## Uninstall
 
-For Homebrew installs:
+If you installed with Homebrew:
 
 ```bash
 brew services stop cmd-v
 brew uninstall cmd-v
 ```
 
-For source installs:
+If you installed from source:
 
 ```bash
 cmd-v uninstall
