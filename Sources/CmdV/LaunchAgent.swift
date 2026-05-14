@@ -3,7 +3,6 @@ import Foundation
 
 struct LaunchAgent {
     static let label = "io.github.serkanemir.cmdv"
-    private static let legacyLabels = ["dev.commandv.service"]
 
     let binaryURL: URL
 
@@ -18,8 +17,6 @@ struct LaunchAgent {
     }
 
     func install() throws {
-        try Self.removeLegacyAgents()
-
         try FileManager.default.createDirectory(
             at: Self.plistURL.deletingLastPathComponent(),
             withIntermediateDirectories: true
@@ -51,12 +48,8 @@ struct LaunchAgent {
 
     static func uninstall() throws {
         try? stop()
-        for label in [Self.label] + legacyLabels {
-            try? bootout(label: label)
-            let plistURL = plistURL(for: label)
-            if FileManager.default.fileExists(atPath: plistURL.path) {
-                try FileManager.default.removeItem(at: plistURL)
-            }
+        if FileManager.default.fileExists(atPath: plistURL.path) {
+            try FileManager.default.removeItem(at: plistURL)
         }
     }
 
@@ -90,16 +83,6 @@ struct LaunchAgent {
             executable: "/bin/launchctl",
             arguments: ["bootstrap", guiTarget, plistURL.path]
         )
-    }
-
-    private static func removeLegacyAgents() throws {
-        for label in legacyLabels {
-            try? bootout(label: label)
-            let plistURL = plistURL(for: label)
-            if FileManager.default.fileExists(atPath: plistURL.path) {
-                try FileManager.default.removeItem(at: plistURL)
-            }
-        }
     }
 
     private static func bootout(label: String) throws {

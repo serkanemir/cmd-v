@@ -51,7 +51,7 @@ The highest-sensitivity behavior is expected for this product: clipboard images 
 ## Public Release Recommendations
 
 - Keep the project dependency-free unless a dependency is clearly justified.
-- Keep the repository private until the README, privacy, and release checklist are final.
-- Enable GitHub private vulnerability reporting before switching the repository to public.
+- Keep the README, privacy, and release checklist current before each release.
+- Keep GitHub vulnerability reporting enabled for sensitive reports.
 - Prefer signed and notarized binaries for non-technical users.
 - Consider a brief independent review after the first public release if the project gets meaningful adoption.

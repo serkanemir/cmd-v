@@ -6,7 +6,7 @@ cmd-v is a tiny native macOS helper. When your clipboard contains an image, it p
 
 Maintainer: [Serkan Emir](https://github.com/serkanemir)
 
-Status: private alpha, working locally.
+Status: public alpha.
 
 ## Why
 

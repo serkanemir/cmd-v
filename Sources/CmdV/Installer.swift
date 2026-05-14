@@ -11,19 +11,6 @@ struct Installer {
         preferredInstallDirectory.appendingPathComponent("cmd-v")
     }
 
-    private var legacyInstallURLs: [URL] {
-        [
-            fileManager
-                .homeDirectoryForCurrentUser
-                .appendingPathComponent(".local/bin/cmd-v"),
-            URL(fileURLWithPath: "/opt/homebrew/bin/command-v"),
-            URL(fileURLWithPath: "/usr/local/bin/command-v"),
-            fileManager
-                .homeDirectoryForCurrentUser
-                .appendingPathComponent(".local/bin/command-v")
-        ]
-    }
-
     func installCurrentExecutable() throws -> URL {
         let source = try ExecutableLocator.currentExecutableURL()
         let destination = installURL
@@ -41,26 +28,13 @@ struct Installer {
         }
 
         try fileManager.setAttributes([.posixPermissions: 0o755], ofItemAtPath: destination.path)
-        try removeLegacyInstalledBinaries()
         return destination
     }
 
     func removeInstalledBinaryIfPresent() throws {
-        for destination in [installURL] + legacyInstallURLs {
-            if fileManager.fileExists(atPath: destination.path) {
-                try fileManager.removeItem(at: destination)
-            }
-        }
-    }
-
-    private func removeLegacyInstalledBinaries() throws {
-        let destinationPath = installURL.standardizedFileURL.path
-
-        for legacyURL in legacyInstallURLs where legacyURL.standardizedFileURL.path != destinationPath {
-            guard fileManager.fileExists(atPath: legacyURL.path) else {
-                continue
-            }
-            try fileManager.removeItem(at: legacyURL)
+        let destination = installURL
+        if fileManager.fileExists(atPath: destination.path) {
+            try fileManager.removeItem(at: destination)
         }
     }
 

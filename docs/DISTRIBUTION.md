@@ -52,4 +52,4 @@ This does not require the Mac App Store, but it does require an Apple Developer 
 5. Upload source archive and optional notarized binary.
 6. Update the Homebrew formula checksum.
 
-See `docs/PUBLIC_RELEASE_CHECKLIST.md` before making the repository public.
+See `docs/PUBLIC_RELEASE_CHECKLIST.md` before publishing a release.

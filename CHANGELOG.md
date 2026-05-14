@@ -2,7 +2,7 @@
 
 ## 0.1.0
 
-- Initial private alpha.
+- Initial public alpha.
 - Convert clipboard images into Finder-pasteable file references.
 - Install and run as a per-user LaunchAgent.
 - Add local-only privacy and security posture.

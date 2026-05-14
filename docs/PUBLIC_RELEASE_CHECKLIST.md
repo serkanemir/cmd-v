@@ -1,11 +1,11 @@
-# Public Release Checklist
+# Release Checklist
 
-Before making the repository public:
+Before each release:
 
 1. Confirm the product name and repo name.
 2. Review `README.md`, `PRIVACY.md`, `SECURITY.md`, and `docs/THREAT_MODEL.md`.
 3. Review `docs/SECURITY_REVIEW.md`.
-4. Enable GitHub private vulnerability reporting.
+4. Confirm GitHub vulnerability reporting is available for sensitive reports.
 5. Confirm no local test screenshots or generated files are tracked.
 6. Run `swift test`.
 7. Run `./scripts/install.sh`.

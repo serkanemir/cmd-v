@@ -37,4 +37,4 @@ cmd-v rejects generated PNG payloads above 100 MB.
 
 ## Reporting Issues
 
-While the repository is private, open a private issue with the maintainer. Before the repository becomes public, enable GitHub private vulnerability reporting and update this section with the preferred disclosure path.
+For sensitive security reports, use GitHub's vulnerability reporting flow for this repository when available. For non-sensitive issues, open a normal GitHub issue.

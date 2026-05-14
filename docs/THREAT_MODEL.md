@@ -40,5 +40,5 @@ cmd-v does not try to protect against malware already running as the same macOS 
 
 - Keep the repository dependency-free unless a new dependency is clearly justified.
 - Review all pasteboard types before adding support for new formats.
-- Enable GitHub private vulnerability reporting before making the repository public.
+- Keep GitHub vulnerability reporting enabled for sensitive reports.
 - Prefer signed and notarized binaries for non-technical users.
